@@ -1,0 +1,43 @@
+-- Create external database tenant_app_dm for cross-database references
+USE ROLE ACCOUNTADMIN;
+
+CREATE DATABASE IF NOT EXISTS TENANT_APP_DM
+    COMMENT = 'External tenant application database for cross-references';
+
+CREATE SCHEMA IF NOT EXISTS TENANT_APP_DM.REPORT
+    COMMENT = 'Reporting dimension schema';
+
+CREATE SCHEMA IF NOT EXISTS TENANT_APP_DM.GENERALLEDGER
+    COMMENT = 'General ledger schema';
+
+-- Create dim_employee in report schema
+CREATE OR REPLACE TABLE TENANT_APP_DM.REPORT.DIM_EMPLOYEE (
+    EMPLOYEE_ID NUMBER,
+    EMPLOYEE_SK NUMBER,
+    USER_ID NUMBER,
+    _TENANT_ID NUMBER,
+    EMPLOYEE_NAME VARCHAR(250)
+);
+
+-- Create journalentry table
+CREATE OR REPLACE TABLE TENANT_APP_DM.GENERALLEDGER.JOURNALENTRY (
+    ID NUMBER,
+    _TENANT_ID NUMBER,
+    POSTDATE DATE,
+    ACTIVE NUMBER
+);
+
+-- Create journalentryitem table
+CREATE OR REPLACE TABLE TENANT_APP_DM.GENERALLEDGER.JOURNALENTRYITEM (
+    ID NUMBER,
+    JOURNALENTRYID NUMBER,
+    _TENANT_ID NUMBER,
+    SERVICEAGREEMENTID NUMBER,
+    AMOUNT NUMBER(10,2),
+    TRANSACTIONTYPE NUMBER,
+    ENTRYTYPE NUMBER,
+    ACTIVE NUMBER
+);
+
+SELECT 'External database tenant_app_dm created successfully!' AS STATUS;
+

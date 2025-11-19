@@ -1,0 +1,19 @@
+Testing Bulk Loads One by One
+---
+etl_dim_businessunit_BULK.sql
+| 10       |
+---
+etl_dim_customer_BULK.sql
+| 500      |
+---
+etl_dim_date_BULK.sql
+| 4018     |
+---
+etl_dim_employee_BULK.sql
+| 50       |
+---
+etl_dim_glaccount_BULK.sql
+| 100      |
+---
+etl_dim_job_BULK.sql
+| 5000     |

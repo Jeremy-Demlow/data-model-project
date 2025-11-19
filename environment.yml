@@ -1,0 +1,26 @@
+name: data-model-pipeline
+channels:
+  - conda-forge
+  - snowflake
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    - snowflake-connector-python
+    - snowflake-snowpark-python
+    - snowflake-cli-labs
+    - dbt-core>=1.7.0
+    - dbt-snowflake>=1.7.0
+    - fastcore
+    - faker>=20.0.0
+    - pandas>=2.0.0
+    - numpy>=1.24.0
+    - jupyter
+    - nbdev
+    - pydantic
+    - toml
+    - cryptography
+    - pyyaml
+    - colorama
+

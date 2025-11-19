@@ -1,0 +1,68 @@
+# ============================================
+# Snowflake ETL Pipeline Configuration
+# ============================================
+
+# Snowflake Connection
+snowflake:
+  connection_name: "demo_data"  # From ~/.snowflake/config.toml
+  
+# Database Configuration
+databases:
+  source:
+    name: "TENANT_LAKE"
+    schema: "RAW_REAL"
+  analytics:
+    name: "ENG_STAGING"
+    schema: "BRANDT_REPORT_DM"
+
+# Tenant Configuration
+tenant:
+  default_tenant_id: 3457543957
+
+# Fake Data Generation Configuration
+data_generation:
+  # Number of records to generate for each table
+  row_counts:
+    customer: 500
+    employee: 50
+    location: 300
+    business_unit: 10
+    job_type: 20
+    gl_account: 100
+    sku: 1000
+    service_agreement: 200
+    job: 5000
+    invoice: 8000
+    invoice_item: 25000
+  
+  # Date ranges for generated data
+  date_ranges:
+    start_date: "2023-01-01"
+    end_date: "2024-12-31"
+  
+  # Distribution settings
+  distributions:
+    service_agreement_pct: 0.15  # 15% of jobs are SA visits
+    adjustment_invoice_pct: 0.05  # 5% of invoices are adjustments
+    active_customer_pct: 0.95  # 95% of customers active
+
+# Report Configuration
+report:
+  default_parameters:
+    from_date: "2024-01-01"
+    to_date: "2024-12-31"
+    employee_id_specified: 0
+    employee_ids: []
+    filter_status_specified: 0
+    filter_status: []
+
+# Metric Tracking
+metrics:
+  baseline_table: "MAT_REPORT_BASELINE"
+  summary_table: "MAT_METRIC_SUMMARY"
+  
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+

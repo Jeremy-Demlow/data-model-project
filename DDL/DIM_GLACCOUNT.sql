@@ -1,0 +1,13 @@
+create or replace TRANSIENT TABLE ENG_STAGING.BRANDT_REPORT_DM.DIM_GLACCOUNT (
+	GLACCOUNTKEY NUMBER(38,0) NOT NULL autoincrement start 1 increment 1 noorder COMMENT 'Surrogate key',
+	GLACCOUNTID NUMBER(38,0) NOT NULL COMMENT 'Natural key from source system',
+	TENANTID NUMBER(38,0) NOT NULL,
+	GLACCOUNTTYPE VARCHAR(100) COMMENT 'Type name from generalledgeraccounttype (e.g., Income)',
+	GLACCOUNTTYPEID NUMBER(38,0),
+	ISACTIVE BOOLEAN,
+	LOADDATETIME TIMESTAMP_NTZ(9) DEFAULT CURRENT_TIMESTAMP(),
+	UPDATEDDATETIME TIMESTAMP_NTZ(9),
+	unique (GLACCOUNTID, TENANTID),
+	primary key (GLACCOUNTKEY)
+)COMMENT='GL account dimension (Type 1 - current state only)'
+;

@@ -1,0 +1,110 @@
+# ============================================
+# Metric Configuration for Report Tracking
+# ============================================
+# This file defines the metrics to track across ETL runs
+
+version: "1.0.0"
+run_date: "2024-11-18"
+description: "Initial baseline - post DDL/ETL creation"
+
+# Query parameters
+parameters:
+  from_date: "2024-01-01"
+  to_date: "2024-12-31"
+  tenant_ids: [3457543957]
+  employee_id_specified: 0
+  employee_ids: []
+  filter_status_specified: 0
+  filter_status: []
+
+# Metrics to track
+metrics:
+  # Job Metrics
+  - name: job_revenue_total
+    description: "Total revenue from all jobs"
+    category: "job"
+    query: |
+      SELECT COALESCE(SUM(JobRevenue), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM job_metrics
+      WHERE JobRevenue IS NOT NULL
+    
+  - name: job_cost_total
+    description: "Total cost from all jobs"
+    category: "job"
+    query: |
+      SELECT COALESCE(SUM(JobCost), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM job_metrics
+      WHERE JobCost IS NOT NULL
+    
+  - name: job_margin_total
+    description: "Total margin from all jobs"
+    category: "job"
+    query: |
+      SELECT COALESCE(SUM(JobMargin), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM job_metrics
+      WHERE JobMargin IS NOT NULL
+    
+  - name: job_commission_total
+    description: "Total commission from all jobs"
+    category: "job"
+    query: |
+      SELECT COALESCE(SUM(JobCommission), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM job_metrics
+      WHERE JobCommission IS NOT NULL
+  
+  # Service Agreement Metrics
+  - name: sa_revenue_total
+    description: "Total revenue from service agreements"
+    category: "service_agreement"
+    query: |
+      SELECT COALESCE(SUM(ServiceAgreementRevenue), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM sa_metrics
+      WHERE ServiceAgreementRevenue IS NOT NULL
+    
+  - name: sa_commission_total
+    description: "Total commission from service agreements"
+    category: "service_agreement"
+    query: |
+      SELECT COALESCE(SUM(ServiceAgreementCommission), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM sa_metrics
+      WHERE ServiceAgreementCommission IS NOT NULL
+    
+  - name: sa_margin_total
+    description: "Total margin from service agreements"
+    category: "service_agreement"
+    query: |
+      SELECT COALESCE(SUM(ServiceAgreementMargin), 0) as metric_value,
+             COUNT(*) as metric_count
+      FROM sa_metrics
+      WHERE ServiceAgreementMargin IS NOT NULL
+  
+  # Invoice Metrics
+  - name: invoice_count
+    description: "Total number of invoices"
+    category: "invoice"
+    query: |
+      SELECT COUNT(DISTINCT InvoiceId) as metric_value,
+             COUNT(DISTINCT InvoiceId) as metric_count
+      FROM invoice_metrics
+  
+  # Employee Metrics
+  - name: employee_commission_total
+    description: "Total commission across all employees"
+    category: "employee"
+    query: |
+      SELECT COALESCE(SUM(TotalCommission), 0) as metric_value,
+             COUNT(DISTINCT EmployeeId) as metric_count
+      FROM employee_metrics
+      WHERE TotalCommission IS NOT NULL
+
+# Comparison settings
+comparison:
+  enabled: true
+  tolerance_pct: 0.01  # 1% tolerance for differences
+
